@@ -11,7 +11,7 @@ Companion repository for the [KC Labs AI](https://www.youtube.com/@kclabsai) vid
 
 ## Architecture
 
-![Semantic Layer Architecture](./images/diagram.png)
+![Semantic Layer Architecture](./images/diagram.png?v=2)
 
 ## Prerequisites
 
