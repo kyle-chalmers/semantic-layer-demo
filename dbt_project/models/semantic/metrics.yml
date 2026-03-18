@@ -1,0 +1,23 @@
+version: 2
+
+metrics:
+  - name: total_revenue
+    type: simple
+    type_params:
+      measure: total_revenue
+    label: "Total Revenue"
+    description: "Sum of extended price across all line items"
+
+  - name: order_count
+    type: simple
+    type_params:
+      measure: order_count
+    label: "Total Orders"
+    description: "Count of distinct orders"
+
+  - name: avg_discount
+    type: simple
+    type_params:
+      measure: avg_discount
+    label: "Average Discount"
+    description: "Average discount rate across line items"

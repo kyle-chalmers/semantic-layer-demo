@@ -1,0 +1,23 @@
+-- Snowflake Semantic View: the bundled approach
+-- Defines revenue ONCE so every query gets the same answer
+
+CREATE OR REPLACE SEMANTIC VIEW ANALYTICS.PUBLIC.TPCH_SEMANTIC_VIEW
+  TABLES (
+    ord AS SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.ORDERS PRIMARY KEY (O_ORDERKEY),
+    cust AS SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.CUSTOMER PRIMARY KEY (C_CUSTKEY),
+    li AS SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM PRIMARY KEY (L_ORDERKEY, L_LINENUMBER)
+  )
+  RELATIONSHIPS (
+    ord (O_CUSTKEY) REFERENCES cust (C_CUSTKEY),
+    li (L_ORDERKEY) REFERENCES ord (O_ORDERKEY)
+  )
+  DIMENSIONS (
+    ord.order_date AS O_ORDERDATE,
+    ord.order_status AS O_ORDERSTATUS,
+    cust.customer_name AS C_NAME,
+    cust.market_segment AS C_MKTSEGMENT
+  )
+  METRICS (
+    ord.total_orders AS COUNT(DISTINCT O_ORDERKEY),
+    li.total_revenue AS SUM(L_EXTENDEDPRICE)
+  );

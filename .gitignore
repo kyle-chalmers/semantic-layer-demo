@@ -1,0 +1,26 @@
+# Environment
+.env
+*.env.local
+
+# Internal (private config, recording notes)
+.internal/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# dbt
+dbt_project/target/
+dbt_project/dbt_packages/
+dbt_project/logs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
