@@ -118,7 +118,7 @@ Same answer. Different architecture.
 |--------|--------------------|-----------------------------|
 | Setup | Zero additional tools | dbt project + MetricFlow install |
 | Where it lives | Inside your warehouse | In your transformation layer (version controlled) |
-| Consumers | Snowflake tools only | Any tool via API (BI, AI agents, apps) |
+| Consumers | Primarily native tools; Tableau and Power BI can connect via TDS export / DirectQuery | Any tool via API (BI, AI agents, apps) |
 | Best for | Teams all-in on one platform | Teams with multiple downstream consumers |
 
 ## Semantic Layer Tool Reference
