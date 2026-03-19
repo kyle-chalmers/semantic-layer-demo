@@ -71,10 +71,10 @@ Create it in ANALYTICS.PUBLIC named TPCH_SEMANTIC_VIEW using ORDERS, CUSTOMER,
 and LINEITEM from SNOWFLAKE_SAMPLE_DATA.TPCH_SF1. Define relationships between
 the tables, add market_segment and order_date as dimensions, and define
 total_revenue as SUM(L_EXTENDEDPRICE) and total_orders as COUNT(DISTINCT
-O_ORDERKEY) as metrics. Save the DDL to sql/2_create_semantic_view.sql and run it.
+O_ORDERKEY) as metrics. Save the DDL to sql/create_semantic_view.sql and run it.
 ```
 
-The agent will create `sql/2_create_semantic_view.sql` with the DDL and execute it against Snowflake. Review the generated code, then query via Cortex Analyst. Same answer regardless of how you phrase the question, because the metric definition is governed.
+The agent will create `sql/create_semantic_view.sql` with the DDL and execute it against Snowflake. Review the generated code, then query via Cortex Analyst. Same answer regardless of how you phrase the question, because the metric definition is governed.
 
 ## Solution 2: Standalone (dbt MetricFlow)
 
