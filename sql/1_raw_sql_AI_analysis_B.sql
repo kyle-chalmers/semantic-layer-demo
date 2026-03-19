@@ -1,7 +1,7 @@
--- Analyst B's approach: revenue by market segment
+-- AI Analyst B's approach: revenue by market segment
 -- Uses L_EXTENDEDPRICE * (1 - L_DISCOUNT) for "net revenue"
 -- Same question, different calculation, different number
-
+--AI_analysis_b
 SELECT
     c.C_MKTSEGMENT AS market_segment,
     ROUND(SUM(li.L_EXTENDEDPRICE * (1 - li.L_DISCOUNT)), 2) AS revenue,

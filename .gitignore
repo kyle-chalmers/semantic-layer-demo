@@ -24,3 +24,4 @@ dbt_project/logs/
 # OS
 .DS_Store
 Thumbs.db
+.claude/

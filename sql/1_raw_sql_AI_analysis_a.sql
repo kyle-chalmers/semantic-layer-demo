@@ -1,6 +1,6 @@
--- Analyst A's approach: revenue by market segment
+-- AI Analyst A's approach: revenue by market segment
 -- Uses L_EXTENDEDPRICE directly, joins through ORDERS to CUSTOMER
-
+--AI_analysis_a
 SELECT
     c.C_MKTSEGMENT AS market_segment,
     SUM(li.L_EXTENDEDPRICE) AS revenue,
