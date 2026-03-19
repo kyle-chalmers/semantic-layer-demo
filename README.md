@@ -61,8 +61,8 @@ Two analysts answering "What was revenue by market segment?" can get different n
 
 | File | Approach | Result |
 |------|----------|--------|
-| `sql/1_raw_sql_analyst_a.sql` | SUM(L_EXTENDEDPRICE), all orders | $229B total |
-| `sql/1_raw_sql_analyst_b.sql` | SUM(price * (1 - discount)), fulfilled only | $172B total |
+| `sql/1_raw_sql_AI_analysis_a.sql` | SUM(L_EXTENDEDPRICE), all orders | $229B total |
+| `sql/1_raw_sql_AI_analysis_B.sql` | SUM(price * (1 - discount)), fulfilled only | $172B total |
 
 Same question, different answers. This is the problem a semantic layer solves.
 
@@ -150,8 +150,8 @@ semantic-layer-demo/
 ├── CLAUDE.md                              # AI assistant context
 ├── .env.example                           # Snowflake connection template
 ├── sql/
-│   ├── 1_raw_sql_analyst_a.sql            # "Revenue" query version A
-│   ├── 1_raw_sql_analyst_b.sql            # "Revenue" query version B (different answer)
+│   ├── 1_raw_sql_AI_analysis_a.sql            # "Revenue" query version A
+│   ├── 1_raw_sql_AI_analysis_B.sql            # "Revenue" query version B (different answer)
 │   ├── 2_create_semantic_view.sql         # Snowflake Semantic View DDL
 │   └── 3_query_semantic_view.sql          # Query the Semantic View
 ├── dbt_project/
