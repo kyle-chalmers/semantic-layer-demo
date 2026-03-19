@@ -55,53 +55,37 @@ Snowflake offers a free trial with $400 in credits (no credit card required).
    dbt run
    ```
 
-## The Problem: Inconsistent Metrics
+## The Problem: Inconsistent AI Answers
 
-Two analysts answering "What was revenue by market segment?" can get different numbers:
+Ask an AI assistant "What was total revenue by market segment?" against raw schema, and it generates reasonable SQL. Ask it again with slightly different phrasing ("Show me net revenue per customer segment") and it generates different SQL with a different answer. Same data, same intent, different numbers.
 
-| File | Approach | Result |
-|------|----------|--------|
-| `sql/1_raw_sql_AI_analysis_a.sql` | SUM(L_EXTENDEDPRICE), all orders | $229B total |
-| `sql/1_raw_sql_AI_analysis_B.sql` | SUM(price * (1 - discount)), fulfilled only | $172B total |
-
-Same question, different answers. This is the problem a semantic layer solves.
+This is not the AI's fault. The schema has both `L_EXTENDEDPRICE` and `L_DISCOUNT`, and the AI cannot know which one your business calls "revenue."
 
 ## Solution 1: Bundled (Snowflake Semantic Views)
 
-Create a Semantic View that defines "revenue" once:
+Use an AI coding agent to create a Semantic View that defines "revenue" once:
 
-```sql
--- sql/2_create_semantic_view.sql
-CREATE OR REPLACE SEMANTIC VIEW ANALYTICS.PUBLIC.TPCH_SEMANTIC_VIEW
-  TABLES (...)
-  RELATIONSHIPS (...)
-  DIMENSIONS (cust.market_segment AS C_MKTSEGMENT, ...)
-  METRICS (li.total_revenue AS SUM(L_EXTENDEDPRICE), ...)
+```
+I need you to create a Snowflake Semantic View for the TPCH sample dataset.
+Create it in ANALYTICS.PUBLIC named TPCH_SEMANTIC_VIEW using ORDERS, CUSTOMER,
+and LINEITEM from SNOWFLAKE_SAMPLE_DATA.TPCH_SF1. Define relationships between
+the tables, add market_segment and order_date as dimensions, and define
+total_revenue as SUM(L_EXTENDEDPRICE) and total_orders as COUNT(DISTINCT
+O_ORDERKEY) as metrics. Save the DDL to sql/2_create_semantic_view.sql and run it.
 ```
 
-Query it and get consistent results:
-
-```sql
--- sql/3_query_semantic_view.sql
-SELECT * FROM SEMANTIC_VIEW(
-    ANALYTICS.PUBLIC.TPCH_SEMANTIC_VIEW
-    DIMENSIONS cust.market_segment
-    METRICS li.total_revenue, ord.total_orders
-) ORDER BY total_revenue DESC;
-```
+Then query via Cortex Analyst. Same answer regardless of how you phrase the question, because the metric definition is governed.
 
 ## Solution 2: Standalone (dbt MetricFlow)
 
-Define the same metric in YAML:
+Use an AI coding agent to set up a dbt project with the same metric definition:
 
-```yaml
-# dbt_project/models/semantic/metrics.yml
-metrics:
-  - name: total_revenue
-    type: simple
-    type_params:
-      measure: total_revenue
-    description: "Sum of extended price across all line items"
+```
+Set up a dbt project in dbt_project/ with MetricFlow semantic layer definitions
+that match the Snowflake Semantic View we just created. Create staging models for
+the three TPCH tables that rename columns to snake_case, then create MetricFlow
+semantic model YAML with the same total_revenue metric as SUM of extended_price.
+Include a profiles.yml for Snowflake connection using the semantic_layer_demo profile.
 ```
 
 Query with MetricFlow:
@@ -110,7 +94,7 @@ Query with MetricFlow:
 mf query --metrics total_revenue --group-by customer__market_segment
 ```
 
-Same answer. Different architecture.
+Same answer. Different architecture. The metric definitions live in version control alongside your dbt models.
 
 ## Bundled vs Standalone: Which to Choose?
 
