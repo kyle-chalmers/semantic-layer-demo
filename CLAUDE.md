@@ -26,6 +26,48 @@ Snowflake's built-in TPCH sample data (`SNOWFLAKE_SAMPLE_DATA.TPCH_SF1`):
 
 No data loading needed. Every Snowflake account has this dataset.
 
+## Snowflake Semantic View DDL Reference
+
+Clause order matters: TABLES → RELATIONSHIPS → FACTS → DIMENSIONS → METRICS → COMMENT.
+
+```sql
+CREATE [OR REPLACE] SEMANTIC VIEW <name>
+  TABLES (
+    <alias> AS <fully_qualified_table>
+      PRIMARY KEY (<columns>)
+      [WITH SYNONYMS = ('<synonym>', ...)]
+      [COMMENT = '<description>']
+  )
+  [RELATIONSHIPS (
+    <name> AS <alias> (<fk_columns>) REFERENCES <ref_alias>
+  )]
+  [FACTS (
+    [PRIVATE|PUBLIC] <table>.<fact> AS <expression>
+      [WITH SYNONYMS = (...)] [COMMENT = '...']
+  )]
+  DIMENSIONS (
+    <table>.<dimension> AS <expression>
+      [WITH SYNONYMS = (...)] [COMMENT = '...']
+  )
+  METRICS (
+    <table>.<metric> AS <aggregate_expression>
+      [WITH SYNONYMS = (...)] [COMMENT = '...']
+  )
+  [COMMENT = '<view-level comment>']
+  [AI_SQL_GENERATION '<instructions>']
+  [AI_QUESTION_CATEGORIZATION '<instructions>']
+;
+```
+
+**Cortex Analyst optimization:**
+- Rich COMMENTs on view, tables, dimensions, and metrics — Cortex Analyst reads these to map natural language to columns
+- `WITH SYNONYMS` on dimensions/metrics maps alternate phrasings (e.g., "revenue", "sales", "total sales") to the correct object
+- View-level COMMENT should state what the view covers and define ambiguous terms (e.g., "revenue = gross extended price before discounts")
+- Table COMMENTs should describe cardinality and column semantics
+
+**Execution:** `snow sql -f sql/create_semantic_view.sql`
+**Verification:** `SHOW SEMANTIC VIEWS IN SCHEMA <db>.<schema>` and `DESCRIBE SEMANTIC VIEW <name>`
+
 ## Code Conventions
 
 - SQL: uppercase keywords, lowercase aliases, Snowflake Standard SQL

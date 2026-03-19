@@ -1,0 +1,9 @@
+models:
+  - name: metricflow_time_spine
+    description: "Daily time spine for MetricFlow. Covers 1992-2000 (TPCH date range)."
+    time_spine:
+      standard_granularity_column: date_day
+    columns:
+      - name: date_day
+        description: One row per calendar day.
+        granularity: day
