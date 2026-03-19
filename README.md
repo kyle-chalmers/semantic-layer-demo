@@ -149,27 +149,22 @@ semantic-layer-demo/
 ├── README.md                              # This file
 ├── CLAUDE.md                              # AI assistant context
 ├── .env.example                           # Snowflake connection template
-├── sql/
-│   ├── 1_raw_sql_AI_analysis_a.sql            # "Revenue" query version A
-│   ├── 1_raw_sql_AI_analysis_B.sql            # "Revenue" query version B (different answer)
-│   ├── 2_create_semantic_view.sql         # Snowflake Semantic View DDL
-│   └── 3_query_semantic_view.sql          # Query the Semantic View
-├── dbt_project/
-│   ├── dbt_project.yml                    # dbt configuration
-│   ├── profiles.yml                       # Snowflake connection profile
+├── ai_analysis_a.sql                      # Backup: AI-generated gross revenue query
+├── ai_analysis_b.sql                      # Backup: AI-generated net revenue query
+├── sql/                                   # Created during demo by AI
+│   └── 2_create_semantic_view.sql         # Snowflake Semantic View DDL (AI-generated)
+├── dbt_project/                           # Created during demo by AI
+│   ├── dbt_project.yml
+│   ├── profiles.yml
 │   └── models/
-│       ├── staging/                        # Staging models (rename TPCH columns)
-│       │   ├── schema.yml                  # Source definitions
-│       │   ├── stg_orders.sql
-│       │   ├── stg_customers.sql
-│       │   └── stg_lineitem.sql
-│       └── semantic/                       # MetricFlow definitions
-│           ├── semantic_models.yml         # Entities, dimensions, measures
-│           └── metrics.yml                 # Metric definitions
+│       ├── staging/                        # Staging models (AI-generated)
+│       └── semantic/                       # MetricFlow definitions (AI-generated)
 └── images/
     ├── diagram.excalidraw                  # Architecture diagram (source)
     └── diagram.png                         # Architecture diagram (rendered)
 ```
+
+Note: The `sql/` and `dbt_project/` directories are created during the video demo using AI prompts. They are not pre-built.
 
 ## Resources
 
