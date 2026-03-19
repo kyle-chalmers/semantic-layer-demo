@@ -1,0 +1,36 @@
+models:
+  - name: stg_orders
+    description: "Staged TPCH orders. One row per order."
+    columns:
+      - name: order_key
+        description: Unique order identifier.
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_key
+        description: Foreign key to stg_customers.
+      - name: order_date
+        description: Date the order was placed.
+
+  - name: stg_customers
+    description: "Staged TPCH customers. One row per customer."
+    columns:
+      - name: customer_key
+        description: Unique customer identifier.
+        data_tests:
+          - unique
+          - not_null
+      - name: market_segment
+        description: "Customer market segment: AUTOMOBILE, BUILDING, FURNITURE, HOUSEHOLD, or MACHINERY."
+
+  - name: stg_line_items
+    description: "Staged TPCH line items. One row per order line."
+    columns:
+      - name: order_key
+        description: Foreign key to stg_orders.
+        data_tests:
+          - not_null
+      - name: line_number
+        description: Line item number within the order.
+      - name: extended_price
+        description: Gross line item price before discounts and tax.

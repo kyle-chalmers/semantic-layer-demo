@@ -1,0 +1,58 @@
+semantic_models:
+  - name: customers
+    description: "Customer dimension table. One row per customer with market segment."
+    model: ref('stg_customers')
+    entities:
+      - name: customer_key
+        type: primary
+        expr: customer_key
+    dimensions:
+      - name: market_segment
+        type: categorical
+        description: "Customer market segment: AUTOMOBILE, BUILDING, FURNITURE, HOUSEHOLD, or MACHINERY."
+
+  - name: orders
+    description: "Order fact table. One row per order."
+    model: ref('stg_orders')
+    defaults:
+      agg_time_dimension: order_date
+    entities:
+      - name: order_key
+        type: primary
+        expr: order_key
+      - name: customer_key
+        type: foreign
+        expr: customer_key
+    dimensions:
+      - name: order_date
+        type: time
+        type_params:
+          time_granularity: day
+    measures:
+      - name: order_count
+        description: Count of distinct orders.
+        agg: count_distinct
+        expr: order_key
+
+  - name: line_items
+    description: "Line item fact table. One row per order line. Extended price is gross price before discounts and tax."
+    model: ref('stg_line_items')
+    defaults:
+      agg_time_dimension: order_date
+    entities:
+      - name: line_item
+        type: primary
+        expr: order_key || '-' || line_number
+      - name: order_key
+        type: foreign
+        expr: order_key
+    dimensions:
+      - name: order_date
+        type: time
+        type_params:
+          time_granularity: day
+    measures:
+      - name: total_extended_price
+        description: Sum of line item extended price (gross, before discounts and tax).
+        agg: sum
+        expr: extended_price

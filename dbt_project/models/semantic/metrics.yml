@@ -1,0 +1,14 @@
+metrics:
+  - name: total_revenue
+    description: "Total gross revenue: sum of line item extended prices before discounts and tax."
+    label: Total Revenue
+    type: simple
+    type_params:
+      measure: total_extended_price
+
+  - name: total_orders
+    description: "Total number of distinct orders."
+    label: Total Orders
+    type: simple
+    type_params:
+      measure: order_count

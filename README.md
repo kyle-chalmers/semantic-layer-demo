@@ -81,11 +81,11 @@ The agent will create `sql/create_semantic_view.sql` with the DDL and execute it
 Use an AI coding agent to set up a dbt project with the same metric definition:
 
 ```
-Set up a dbt project in dbt_project/ with MetricFlow semantic layer definitions
-that match the Snowflake Semantic View we just created. Create staging models for
-the three TPCH tables that rename columns to snake_case, then create MetricFlow
-semantic model YAML with the same total_revenue metric as SUM of extended_price.
+On a new or existing feature branch, set up a dbt project in dbt_project/ with MetricFlow semantic layer definitions.
+Create staging models for the three TPCH tables (ORDERS, CUSTOMER, LINEITEM from SNOWFLAKE_SAMPLE_DATA.TPCH_SF1) that rename columns to snake_case.
+Create a MetricFlow semantic model YAML with a total_revenue metric defined as SUM of extended_price, and total_orders as COUNT DISTINCT of order_id. Include market_segment and order_date as dimensions. Please test the syntax and ensure you have it right before executing.
 Include a profiles.yml for Snowflake connection using the semantic_layer_demo profile.
+If MetricFlow for dbt is not already configured, install it.
 Once everything is set up, commit the work to the repo.
 ```
 
