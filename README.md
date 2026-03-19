@@ -97,6 +97,20 @@ mf query --metrics total_revenue --group-by customer__market_segment
 
 Same answer. Different architecture. The metric definitions live in version control alongside your dbt models.
 
+### How MetricFlow Enables AI
+
+MetricFlow defines metrics as structured YAML that compiles to optimized SQL. When an AI agent needs "total revenue by market segment," it does not guess which columns to use or how to calculate it. The metric is defined once, and every query goes through that governed definition.
+
+**With dbt Core** (what this demo uses), `mf query` compiles metric requests locally and runs the resulting SQL against your warehouse. This proves the definitions work and gives you a local query interface.
+
+**With dbt Cloud** ($100/user/month for Semantic Layer access), the same metric definitions are exposed via a hosted API:
+
+- **Semantic Layer API** (JDBC and GraphQL endpoints) lets any tool query governed metrics programmatically. [Tableau](https://docs.getdbt.com/docs/cloud-integrations/avail-sl-integrations), Power BI, Google Sheets, Hex, and other BI tools connect directly.
+- **dbt MCP Server** ([docs](https://docs.getdbt.com/docs/dbt-ai/about-mcp)) gives AI agents a standardized interface to discover metrics (`list_metrics`), understand available dimensions (`get_dimensions`), and query governed results (`query_metrics`). The AI never writes raw SQL against your tables. It queries through the semantic layer.
+- The query command becomes `dbt sl query` instead of `mf query`, with the same syntax.
+
+The YAML definitions are the source of truth. `mf query` proves they work locally. The dbt Cloud API and MCP server are how AI agents and BI tools consume them in production.
+
 ## Bundled vs Standalone: Which to Choose?
 
 | Aspect | Bundled (Snowflake) | Standalone (dbt MetricFlow) |
