@@ -74,7 +74,7 @@ total_revenue as SUM(L_EXTENDEDPRICE) and total_orders as COUNT(DISTINCT
 O_ORDERKEY) as metrics. Save the DDL to sql/2_create_semantic_view.sql and run it.
 ```
 
-Then query via Cortex Analyst. Same answer regardless of how you phrase the question, because the metric definition is governed.
+The agent will create `sql/2_create_semantic_view.sql` with the DDL and execute it against Snowflake. Review the generated code, then query via Cortex Analyst. Same answer regardless of how you phrase the question, because the metric definition is governed.
 
 ## Solution 2: Standalone (dbt MetricFlow)
 
@@ -86,9 +86,10 @@ that match the Snowflake Semantic View we just created. Create staging models fo
 the three TPCH tables that rename columns to snake_case, then create MetricFlow
 semantic model YAML with the same total_revenue metric as SUM of extended_price.
 Include a profiles.yml for Snowflake connection using the semantic_layer_demo profile.
+Once everything is set up, commit the work to the repo.
 ```
 
-Query with MetricFlow:
+The agent will create the full `dbt_project/` directory with staging models, semantic model definitions, metric YAML, and connection config. Review the generated files, then query with MetricFlow:
 
 ```bash
 mf query --metrics total_revenue --group-by customer__market_segment
